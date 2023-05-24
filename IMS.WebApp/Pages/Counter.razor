@@ -1,4 +1,7 @@
 ﻿@page "/counter"
+@using IMS.UseCases.Interfaces;
+
+@inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
 
 <PageTitle>Counter</PageTitle>
 
@@ -10,6 +13,13 @@
 
 @code {
     private int currentCount = 0;
+
+    //check if use case is working
+    protected override async Task OnInitializedAsync()
+    {
+        var invs = await ViewInventoriesByNameUseCase.ExecuteAsync("ngi");
+    }
+
 
     private void IncrementCount()
     {
