@@ -16,5 +16,11 @@ namespace IMS.Plugins.EFCore
         {
             return await _db.Inventories.Where(i => i.InventoryName.Contains(name, StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(name)).ToListAsync();                         
         }
+
+        public async Task AddInventoryAsync(Inventory inventory)
+        {
+            _db.Inventories.Add(inventory);
+            await _db.SaveChangesAsync();
+        }
     }
 }
