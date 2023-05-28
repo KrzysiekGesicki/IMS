@@ -22,5 +22,17 @@ namespace IMS.Plugins.EFCore
             _db.Inventories.Add(inventory);
             await _db.SaveChangesAsync();
         }
+
+        public async Task UpdateInventory(Inventory inventory)
+        {
+            var inv = await _db.Inventories.FindAsync(inventory.InventoryId);
+            if (inv != null)
+            {
+                inv.InventoryName = inventory.InventoryName;
+                inv.Price = inventory.Price;
+                inv.Quantity = inventory.Quantity;
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }
