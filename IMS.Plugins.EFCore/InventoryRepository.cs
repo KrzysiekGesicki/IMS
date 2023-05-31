@@ -19,12 +19,19 @@ namespace IMS.Plugins.EFCore
 
         public async Task AddInventoryAsync(Inventory inventory)
         {
+            //to prevent different inventories from having the same name
+            if (_db.Inventories.Any(i => i.InventoryName.Equals(inventory.InventoryName, StringComparison.OrdinalIgnoreCase))) return;
+
             _db.Inventories.Add(inventory);
             await _db.SaveChangesAsync();
         }
 
-        public async Task UpdateInventory(Inventory inventory)
+        public async Task UpdateInventoryAsync(Inventory inventory)
         {
+            //to prevent different inventories from having the same name
+            if (_db.Inventories.Any(i => i.InventoryId != inventory.InventoryId &&
+                                        i.InventoryName.Equals(inventory.InventoryName, StringComparison.OrdinalIgnoreCase))) return;
+
             var inv = await _db.Inventories.FindAsync(inventory.InventoryId);
             if (inv != null)
             {
@@ -33,6 +40,13 @@ namespace IMS.Plugins.EFCore
                 inv.Quantity = inventory.Quantity;
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<Inventory?> GetInventoryByIdAsync(int inventoryId)
+        {
+            //var inv = await _db.Inventories.SingleOrDefaultAsync(i => i.InventoryId == inventoryId);
+            var inv = await _db.Inventories.FindAsync(inventoryId);
+            return inv;
         }
     }
 }
