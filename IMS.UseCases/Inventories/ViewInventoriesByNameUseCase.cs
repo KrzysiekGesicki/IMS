@@ -2,7 +2,7 @@
 using IMS.UseCases.Interfaces;
 using IMS.UseCases.PluginInterfaces;
 
-namespace IMS.UseCases
+namespace IMS.UseCases.Inventories
 {
     public class ViewInventoriesByNameUseCase : IViewInventoriesByNameUseCase
     {
